@@ -2,10 +2,10 @@
 
 set -Eeo pipefail
 
-echo $'\n**************************************************************\n                        * NAOS TTT *\n**************************************************************\n'
-echo $'|   Guided installation   | \n'
-echo $'Checking for Docker Requirements:\n'
-
+echo -e $"*****************************************\n
+*** Auto-Bootstrapper & Resource Yoke ***\n
+***        Guided Installation        ***\n
+*****************************************\n"
 
 check_linux (){
   OS_ID=$(. /etc/os-release && echo "$ID")
@@ -25,6 +25,7 @@ check_linux (){
 
 get_unsucked () {
   echo "Getting repos..."
+  cd $HOME/repos
   git clone https://git.suckless.org/dwm
   git clone https://git.suckless.org/st
   git clone https://git.suckless.org/dmenu
@@ -33,10 +34,20 @@ get_unsucked () {
 
 
 installation (){
-  sudo apt-get update \
-  xargs sudo apt-get install < add-list \
+  sudo apt-get update
+  xargs sudo apt-get install < add-list
   xargs sudo apt-get remove < remove-list
+  cd
 }
 
-check_linux
-echo "Call \`sudo reboot\` to complete the setup."
+main (){
+  check_linux
+  installation
+
+  [ -d "$HOME/abry/repos" ] || mkdir -p $HOME/abry/repos
+  get_unsucked
+  echo "Call \`sudo reboot\` to complete the setup."
+}
+
+
+main
