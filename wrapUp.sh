@@ -18,20 +18,27 @@ check_linux (){
     else
       echo $"Newer version of the operating system is needed.\n"
       exit 1
+    fi
   else
     echo "Wrong distro, try Ubuntu 20.04\n"
     exit 1
   fi
 }
 
+#Puts dotfiles and other configuration files in their corresponding directories
+dotfiles_over () {
+  echo "moving configuration files"
+}
+
 #Downloads suckless stuff from repo
 get_unsucked () {
   echo "Getting repos..."
-  cd $HOME/repos
-  git clone https://git.suckless.org/dwm
-  git clone https://git.suckless.org/st
-  git clone https://git.suckless.org/dmenu
+  cd $HOME/abry/repos
+  [ ! -d "dwm" ] && git clone https://git.suckless.org/dwm
+  [ ! -d "st" ] && git clone https://git.suckless.org/st
+  [ ! -d "dmenu" ] && git clone https://git.suckless.org/dmenu
   echo "Downloaded!!"
+  cd -
 }
 
 #Calls make and make clean install
@@ -44,16 +51,20 @@ maker () {
 
 #General installation function
 installation () {
+  cd $HOME/ABRY-Ubuntu
   sudo apt-get update
-  xargs sudo apt-get install < add-list
+  xargs sudo apt-get install -y --no-install-recommends < add-list
   xargs sudo apt-get remove < remove-list
+  cd $HOME/abry/repos
   for dir in ./*; do
     [ -d "$(basename "$dir")" ] && maker "$(basename "$dir")"
   done
+  cd -
 }
 
 main () {
   check_linux
+  dotfiles_mover
   [ -d "$HOME/abry/repos" ] || mkdir -p $HOME/abry/repos
   get_unsucked
   sudo installation

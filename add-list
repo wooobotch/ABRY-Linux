@@ -6,7 +6,7 @@ libxinerama-dev
 libxft-dev
 xinit
 neovim
-apt-transport-2https
+apt-transport-https
 curl
 xfce4-appfinder
 thunar
