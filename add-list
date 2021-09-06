@@ -5,8 +5,12 @@ libx11-dev
 libxinerama-dev
 libxft-dev
 xinit
+xcompmgr
 neovim
 apt-transport-https
+unrar
+unzip
+zathura
 curl
 xfce4-appfinder
 thunar
