@@ -27,16 +27,17 @@ check_linux (){
 
 #Puts dotfiles and other configuration files in their corresponding directories
 dotfiles_over () {
-  echo "moving configuration files"
+  echo "Moving configuration files..."
 }
 
 #Downloads suckless stuff from repo
 get_unsucked () {
   echo "Getting repos..."
   cd $HOME/abry/repos
-  [ ! -d "dwm" ] && git clone https://git.suckless.org/dwm
-  [ ! -d "st" ] && git clone https://git.suckless.org/st
-  [ ! -d "dmenu" ] && git clone https://git.suckless.org/dmenu
+  for URL in $(xargs echo < repo-list); do
+    REPO=$(echo $url | rev | cut -d "/" -f 1 | rev)
+    [ ! -d "$REPO" ] && git clone $URL
+  done
   echo "Downloaded!!"
   cd -
 }
@@ -56,8 +57,8 @@ installation () {
   xargs sudo apt-get install -y --no-install-recommends < add-list
   xargs sudo apt-get remove < remove-list
   cd $HOME/abry/repos
-  for dir in ./*; do
-    [ -d "$(basename "$dir")" ] && maker "$(basename "$dir")"
+  for DIREC in ./*; do
+    [ -d "$(basename "$DIREC")" ] && maker "$(basename "$DIREC")"
   done
   cd -
 }
