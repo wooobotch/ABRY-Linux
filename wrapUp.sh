@@ -26,16 +26,17 @@ check_linux (){
 }
 
 #Puts dotfiles and other configuration files in their corresponding directories
-dotfiles_over () {
+dotfiles_mover () {
   echo "Moving configuration files..."
 }
 
 #Downloads suckless stuff from repo
 get_unsucked () {
   echo "Getting repos..."
+  cp repo-list $HOME/abry/repos
   cd $HOME/abry/repos
   for URL in $(xargs echo < repo-list); do
-    REPO=$(echo $url | rev | cut -d "/" -f 1 | rev)
+    REPO=$(echo $URL | rev | cut -d "/" -f 1 | rev)
     [ ! -d "$REPO" ] && git clone $URL
   done
   echo "Downloaded!!"
@@ -45,7 +46,7 @@ get_unsucked () {
 #Calls make and make clean install
 maker () {
   cd $1
-  make && make clean install && echo "$1 successfully installed" || echo "$1 installtion aborted"
+  $(make) && $(sudo make clean install) && $(echo "$1 successfully installed") || $(echo "$1 installtion aborted")
   cd -
 }
 
@@ -68,7 +69,7 @@ main () {
   dotfiles_mover
   [ -d "$HOME/abry/repos" ] || mkdir -p $HOME/abry/repos
   get_unsucked
-  sudo installation
+  installation
 
   echo "Call \`sudo reboot\` to complete the setup."
 }
