@@ -29,6 +29,9 @@ check_linux (){
 #Puts dotfiles and other configuration files in their corresponding directories
 dotfiles_mover () {
   echo -e "\aMoving configuration files..." && sleep 1s
+  cd $HOME/ABRY-Ubuntu/dotfiles
+  cp ./* $HOME
+  cd -
 }
 
 #Downloads suckless stuff from repo
