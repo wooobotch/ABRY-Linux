@@ -17,11 +17,11 @@ check_linux (){
     if [ \( "$OS_VER"=="20.04" \) ]; then
       echo "The OS matches the requierements." && sleep 1s
     else
-      echo $"Newer version of the operating system is needed.\n"
+      echo $"Newer version of the operating system is needed."
       exit 1
     fi
   else
-    echo "Wrong distro, try Ubuntu 20.04\n"
+    echo "Wrong distro, try Ubuntu 20.04"
     exit 1
   fi
 }
@@ -41,6 +41,7 @@ get_unsucked () {
     REPO=$(echo $URL | rev | cut -d "/" -f 1 | rev)
     [ ! -d "$REPO" ] && git clone $URL
   done
+  rm repo-list
   echo "The repos listed were downloaded!!" && sleep 1s
   cd -
 }
@@ -49,10 +50,8 @@ get_unsucked () {
 maker () {
   echo -e "\aMaking $1!" && sleep 1s
   cd $1
-  $(make) && \
-  $(sudo make clean install) && \
-  $(echo "$1 successfully installed") || \
-  $(echo "$1 installtion aborted")
+  make || echo "Couldn't 'make'"
+  sudo make clean install || echo "$1 installtion aborted"
   cd -
 }
 
@@ -63,7 +62,8 @@ installation () {
   cd $HOME/ABRY-Ubuntu
   sudo apt-get update
   xargs sudo apt-get install -y --no-install-recommends < add-list
-  for DIREC in ./*; do
+  cd $HOME/abry/repos
+  for DIREC in $(xargs echo < repo-list); do
     [ -d "$(basename "$DIREC")" ] && maker "$(basename "$DIREC")"
   done
   cd -
@@ -71,6 +71,7 @@ installation () {
 
 clean_up (){
   echo -e "\aRevoming unnecesary reminders..." && sleep 1s
+  cd $HOME/ABRY-Ubuntu
   xargs sudo apt-get remove < remove-list
   sudo apt-get autoremove
 }
