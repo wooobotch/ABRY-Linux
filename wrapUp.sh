@@ -53,11 +53,11 @@ maker () {
 
 #General installation function
 installation () {
+  [ -d "$HOME/abry/repos" ] || mkdir -p $HOME/abry/repos
   cd $HOME/ABRY-Ubuntu
   sudo apt-get update
   xargs sudo apt-get install -y --no-install-recommends < add-list
   xargs sudo apt-get remove < remove-list
-  cd $HOME/abry/repos
   for DIREC in ./*; do
     [ -d "$(basename "$DIREC")" ] && maker "$(basename "$DIREC")"
   done
@@ -67,7 +67,6 @@ installation () {
 main () {
   check_linux
   dotfiles_mover
-  [ -d "$HOME/abry/repos" ] || mkdir -p $HOME/abry/repos
   get_unsucked
   installation
 
