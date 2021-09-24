@@ -6,6 +6,7 @@ libxinerama-dev
 libxft-dev
 xinit
 xcompmgr
+x11-xserver-utils
 neovim
 apt-transport-https
 unrar

@@ -29,9 +29,7 @@ check_linux (){
 #Puts dotfiles and other configuration files in their corresponding directories
 dotfiles_mover () {
   echo -e "\aMoving configuration files..." && sleep 1s
-  cd $HOME/ABRY-Ubuntu/dotfiles
-  cp ./* $HOME
-  cd -
+  cp -r  $HOME/ABRY-Ubuntu/dotfiles/. $HOME
 }
 
 #Downloads suckless stuff from repo
@@ -58,7 +56,6 @@ maker () {
   cd -
 }
 
-
 #General installation function
 installation () {
   echo -e "\aPackage and repositories installation:" && sleep 1s
@@ -72,6 +69,7 @@ installation () {
   cd -
 }
 
+#Uninstalation and obsolete package removal
 clean_up (){
   echo -e "\aRevoming unnecesary reminders..." && sleep 1s
   cd $HOME/ABRY-Ubuntu
@@ -79,6 +77,7 @@ clean_up (){
   sudo apt-get autoremove
 }
 
+#Main function, it calls eerything else
 main () {
   check_linux
   get_unsucked
