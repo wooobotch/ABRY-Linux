@@ -29,18 +29,14 @@ check_linux (){
 #Puts dotfiles and other configuration files in their corresponding directories
 dotfiles_mover () {
   echo -e "\aMoving configuration files..." && sleep 1s
-#  cp -r  $HOME/ABRY-Ubuntu/dotfiles/. $HOME
-  cp -r  $1/dotfiles/. $1/..
+  #cp -r  $1/dotfiles/. $1/..
 }
 
 #Downloads suckless stuff from repo
 get_unsucked () {
   echo -e "\aGetting repos..." && sleep 1s
-#  [ -d "$HOME/abry/repos" ] || mkdir -p $HOME/abry/repos
   [ -d "$1/../abry/repos" ] || mkdir -p $1/../abry/repos
-#  cp repo-list $HOME/abry/repos
   cp repo-list $1/../abry/repos
-#  cd $HOME/abry/repos
   cd $1/../abry/repos
   for URL in $(xargs echo < repo-list); do
     REPO=$(echo $URL | rev | cut -d "/" -f 1 | rev)
@@ -63,11 +59,9 @@ maker () {
 #General installation function
 installation () {
   echo -e "\aPackage and repositories installation:" && sleep 1s
-#  cd $HOME/ABRY-Ubuntu
   cd $1
   sudo apt-get update
   xargs sudo apt-get install -y --no-install-recommends < add-list
-#  cd $HOME/abry/repos
   cd $1/../abry/repos
   for DIREC in $(xargs echo < repo-list); do
     [ -d "$(basename "$DIREC")" ] && maker "$(basename "$DIREC")"
@@ -78,7 +72,6 @@ installation () {
 #Uninstalation and obsolete package removal
 clean_up (){
   echo -e "\aRevoming unnecesary reminders..." && sleep 1s
-#  cd $HOME/ABRY-Ubuntu
   cd $1
   xargs sudo apt-get remove < remove-list
   sudo apt-get autoremove
