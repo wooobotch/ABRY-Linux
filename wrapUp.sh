@@ -11,20 +11,27 @@ echo -e $"*****************************************\n
 check_linux (){
   echo -e "\aChecking for distro and version:"
   OS_ID=$(. /etc/os-release && echo "$ID")
-  OS_VER=$(. /etc/os-release && echo "$VERSION_ID")
 
-  if [ $OS_ID = ubuntu ]; then
-    if [ \( "$OS_VER"=="20.04" \) ]; then
-      echo "The OS matches the requierements." && sleep 1s
-    else
-      echo $"Newer version of the operating system is needed."
-      exit 1
-    fi
+  if [ $OS_ID = "debian" ]; then
   else
-    echo "Wrong distro, try Ubuntu 20.04"
+    echo "Wrong distro, try any Debian version."
     exit 1
   fi
 }
+
+apt_setup (){
+  mv /etc/apt/apt.conf /etc/apt/apt.conf.old
+  cp apt.conf /etc/apt/
+
+  mv /etc/apt/sources.list /etc/apt/sources.list.old
+  cp sources.list /etc/apt/
+
+  apt-get dist-upgrade
+
+  echo "You may want to reboot now."
+
+}
+
 
 #Puts dotfiles and other configuration files in their corresponding directories
 dotfiles_mover () {
@@ -61,7 +68,7 @@ installation () {
   echo -e "\aPackage and repositories installation:" && sleep 1s
   cd $1
   sudo apt-get update
-  xargs sudo apt-get install -y --no-install-recommends < add-list
+  xargs sudo apt-get install -y < add-list
   cd $1/../abry/repos
   for DIREC in $(xargs echo < repo-list); do
     [ -d "$(basename "$DIREC")" ] && maker "$(basename "$DIREC")"
