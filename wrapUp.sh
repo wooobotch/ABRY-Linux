@@ -12,8 +12,7 @@ check_linux (){
   echo -e "\aChecking for distro and version:"
   OS_ID=$(. /etc/os-release && echo "$ID")
 
-  if [ $OS_ID = "debian" ]; then
-  else
+  if [ $OS_ID != "debian" ]; then
     echo "Wrong distro, try any Debian version."
     exit 1
   fi
@@ -37,6 +36,9 @@ apt_setup (){
 dotfiles_mover () {
   echo -e "\aMoving configuration files..." && sleep 1s
   #cp -r  $1/dotfiles/. $1/..
+  cp keyboard /etc/default/keyboard
+  cp ./dotfiles/xsessionrc /home/$1/.xsessionrc
+  cp ./dotfiles/xinitrc /home/$1/.xinitrc
 }
 
 #Downloads suckless stuff from repo
@@ -88,7 +90,7 @@ clean_up (){
 main () {
   check_linux
   get_unsucked $1
-  dotfiles_mover
+  dotfiles_mover abry
   installation $1
   clean_up $1
 
