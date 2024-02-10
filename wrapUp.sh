@@ -22,10 +22,10 @@ apt_setup (){
   mv /etc/apt/apt.conf /etc/apt/apt.conf.old
   cp apt.conf /etc/apt/
 
-  mv /etc/apt/sources.list /etc/apt/sources.list.old
-  cp sources.list /etc/apt/
+  #mv /etc/apt/sources.list /etc/apt/sources.list.old
+  #cp sources.list /etc/apt/
 
-  apt-get dist-upgrade
+  #apt-get dist-upgrade
 
   echo "You may want to reboot now."
 
@@ -89,6 +89,7 @@ clean_up (){
 #Main function, it calls everything else
 main () {
   check_linux
+  apt-setup
   get_unsucked $1
   dotfiles_mover abry
   installation $1
