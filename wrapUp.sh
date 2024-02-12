@@ -51,7 +51,7 @@ get_unsucked () {
     REPO=$(echo $URL | rev | cut -d "/" -f 1 | rev)
     [ ! -d "$REPO" ] && git clone $URL
   done
-  rm repo-list
+  rm $1/../abry/repo-list
   cd -
   echo "The repos listed were downloaded!!" && sleep 1s
 }
