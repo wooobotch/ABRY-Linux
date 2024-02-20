@@ -19,7 +19,7 @@ check_linux (){
 }
 
 apt_setup (){
-  mv /etc/apt/apt.conf /etc/apt/apt.conf.old
+  #mv /etc/apt/apt.conf /etc/apt/apt.conf.old
   cp apt.conf /etc/apt/
 
   #mv /etc/apt/sources.list /etc/apt/sources.list.old
@@ -37,7 +37,6 @@ dotfiles_mover () {
   echo -e "\aMoving configuration files..." && sleep 1s
   #cp -r  $1/dotfiles/. $1/..
   cp keyboard /etc/default/keyboard
-  cp ./dotfiles/xsessionrc /home/$1/.xsessionrc
   cp ./dotfiles/xinitrc /home/$1/.xinitrc
 }
 
@@ -51,7 +50,7 @@ get_unsucked () {
     REPO=$(echo $URL | rev | cut -d "/" -f 1 | rev)
     [ ! -d "$REPO" ] && git clone $URL
   done
-  rm $1/../abry/repo-list
+  #rm $1/../abry/repo-list
   cd -
   echo "The repos listed were downloaded!!" && sleep 1s
 }
@@ -89,7 +88,7 @@ clean_up (){
 #Main function, it calls everything else
 main () {
   check_linux
-  apt-setup
+  apt_setup
   get_unsucked $1
   dotfiles_mover abry
   installation $1
