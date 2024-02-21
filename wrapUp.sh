@@ -37,7 +37,6 @@ dotfiles_mover () {
   echo -e "\aMoving configuration files..." && sleep 1s
   #cp -r  $1/dotfiles/. $1/..
   cp keyboard /etc/default/keyboard
-  cp ./dotfiles/xinitrc /home/$1/.xinitrc
 }
 
 #Downloads suckless stuff from repo
@@ -94,7 +93,7 @@ main () {
   installation $1
   clean_up $1
 
-  echo -e "Call \`sudo reboot\` to complete the setup.\n"
+  echo -e "Call \`reboot\` to complete the setup.\n"
 }
 
 #Here starts it all
