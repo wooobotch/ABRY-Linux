@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -Eeo pipefail
 
@@ -19,15 +19,13 @@ check_linux (){
 }
 
 apt_setup (){
-  #mv /etc/apt/apt.conf /etc/apt/apt.conf.old
-  cp apt.conf /etc/apt/
+  [ -f /etc/apt/apt.conf ] &&  mv /etc/apt/apt.conf /etc/apt/apt.conf.old
+  cp $1/configFiles/apt.conf /etc/apt/
 
   #mv /etc/apt/sources.list /etc/apt/sources.list.old
   #cp sources.list /etc/apt/
 
   #apt-get dist-upgrade
-
-  echo "You may want to reboot now."
 
 }
 
@@ -35,8 +33,8 @@ apt_setup (){
 #Puts dotfiles and other configuration files in their corresponding directories
 dotfiles_mover () {
   echo -e "\aMoving configuration files..." && sleep 1s
-  #cp -r  $1/dotfiles/. $1/..
-  cp keyboard /etc/default/keyboard
+  cp -r  $1/configFiles/dotfiles/. $1/..
+  cp $1/configFiles/keyboard /etc/default/keyboard
 }
 
 #Downloads suckless stuff from repo
@@ -49,7 +47,6 @@ get_unsucked () {
     REPO=$(echo $URL | rev | cut -d "/" -f 1 | rev)
     [ ! -d "$REPO" ] && git clone $URL
   done
-  #rm $1/../abry/repo-list
   cd -
   echo "The repos listed were downloaded!!" && sleep 1s
 }
@@ -67,8 +64,8 @@ maker () {
 installation () {
   echo -e "\aPackage and repositories installation:" && sleep 1s
   cd $1
-  sudo apt-get update
-  xargs sudo apt-get install -y < add-list
+  apt-get update
+  xargs apt-get install -y < add-list
   cd $1/../abry/repos
   for DIREC in $(xargs echo < repo-list); do
     [ -d "$(basename "$DIREC")" ] && maker "$(basename "$DIREC")"
@@ -80,14 +77,14 @@ installation () {
 clean_up (){
   echo -e "\aRevoming unnecesary reminders..." && sleep 1s
   cd $1
-  xargs sudo apt-get remove < remove-list
-  sudo apt-get autoremove
+  xargs apt-get remove < remove-list
+  apt-get autoremove
 }
 
 #Main function, it calls everything else
 main () {
   check_linux
-  apt_setup
+  apt_setup $1
   get_unsucked $1
   dotfiles_mover abry
   installation $1
