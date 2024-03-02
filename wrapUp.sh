@@ -19,13 +19,11 @@ check_linux (){
 }
 
 apt_setup (){
-  [ -f /etc/apt/apt.conf ] &&  mv /etc/apt/apt.conf /etc/apt/apt.conf.old
-  cp $1/configFiles/apt.conf /etc/apt/
+  cp $1/configFiles/apt/apt.conf /etc/apt/
+  cp $1/configfiles/apt/sources.list /etc/apt/
 
-  #mv /etc/apt/sources.list /etc/apt/sources.list.old
-  #cp sources.list /etc/apt/
-
-  #apt-get dist-upgrade
+  apt-get update
+  apt-get dist-upgrade
 
 }
 

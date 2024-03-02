@@ -9,6 +9,10 @@ unzip
 mpv
 ffmpeg
 xserver-xorg-input-wacom
+xserver-xorg-input-kbd
+xserver-xorg-input-synaptics
+xserver-xorg-input-evdev
+xserver-xorg-input-mouse
 krita
 audacity
 surf
