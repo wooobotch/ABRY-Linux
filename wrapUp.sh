@@ -58,10 +58,20 @@ maker () {
   cd -
 }
 
+inst_utils (){
+#brave-browser
+  curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+  echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+
+#docker
+
+}
+
 #General installation function
 installation () {
   echo -e "\aPackage and repositories installation:" && sleep 1s
   cd $1
+  inst_utils
   apt-get update
   xargs apt-get install -y < add-list
   cd $1/../abry/repos
