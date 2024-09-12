@@ -17,7 +17,7 @@ battery() {
 }
 
 while true; do
-  xprop -root -set WM_NAME "$(date '+%A, %B %-d, %-I:%M %p')$(battery)"
+  xprop -root -set WM_NAME " $(date '+%B %-d, %-I:%M %p')$(battery) "
   sleep 15
 done &
 
