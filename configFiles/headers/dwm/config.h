@@ -59,13 +59,21 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "st", NULL };
+
 static const char *volUp[]  = { "volume", "up" };
 static const char *volDown[]  = { "volume", "down" };
 static const char *volOut[]  = { "volume", "sil" };
 static const char *volDefault[]  = { "volume", NULL };
 
+static const char *lightUp[]  = { "light", "-A", "3" };
+static const char *lightDown[]  = { "light", "-U", "3" };
+static const char *lightDefault[]  = { "light", "-S", "1" };
+
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
+	{ MODKEY|ShiftMask,             XK_a,      spawn,          {.v = lightUp } },
+	{ MODKEY|ShiftMask,             XK_z,      spawn,          {.v = lightDown } },
+	{ MODKEY|ShiftMask,             XK_s,      spawn,          {.v = lightDefault } },
 	{ MODKEY,                       XK_a,      spawn,          {.v = volUp } },
 	{ MODKEY,                       XK_z,      spawn,          {.v = volDown } },
 	{ MODKEY,                       XK_s,      spawn,          {.v = volOut } },
